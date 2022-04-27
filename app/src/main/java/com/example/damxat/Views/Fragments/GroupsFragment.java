@@ -87,7 +87,7 @@ public class GroupsFragment extends Fragment {
                 EditText groupName = alertCustomdialog.findViewById(R.id.groupName);
                 String groupNameTxt = groupName.getText().toString();
 
-                //Comentar
+                //sube el grupo creado a la db
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
                 XatGroup group = new XatGroup(groupNameTxt);
@@ -103,12 +103,12 @@ public class GroupsFragment extends Fragment {
 
         ArrayList<XatGroup> arrayGroups = new ArrayList<>();
 
-        //Comentar
+        //Funcionalidad para recargar el fragment y recivir la informacion in real time
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayGroups.clear();
-                //Comentar
+                //Funcionalidad para ver la data de los grupos
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     XatGroup group = snapshot.getValue(XatGroup.class);
                      arrayGroups.add(group);

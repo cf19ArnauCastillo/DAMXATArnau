@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyXatsFragment()).commit();
 
-        //Comentar
+        //Para cargar la data del usuario conectado
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void status(String status){
-        //Comentar
+        //Funcionalidad para saber el estad del usuario
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -80,28 +80,28 @@ public class MainActivity extends AppCompatActivity {
         ref.updateChildren(hashMap);
     }
 
-    //Comentar
+    //Que esa conectado
     @Override
     protected void onResume(){
         super.onResume();
         status("online");
     }
 
-    //Comentar
+    //Que esta desconectado
     @Override
     protected void onPause(){
         super.onPause();
         status("offline");
     }
 
-    //Comentar
+    //Funcionalidad de menu de opciones
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu, menu);
         return true;
     }
 
-    //Comentar
+    //Funcionalidad para desloguearte de tu cuenta
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.i("TESTMENU", "hola" + item.getItemId());

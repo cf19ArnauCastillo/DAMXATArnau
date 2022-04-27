@@ -47,25 +47,25 @@ public class UserFragment extends Fragment {
         recyclerUsers = viewUsers.findViewById(R.id.recyclerMyXats);
         recyclerUsers.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //Comentar
+        //Carga los usuarios conectados
         getUsers();
 
         return viewUsers;
     }
 
     public void getUsers(){
-        //Comentar
+        //Carga tu informacion como suario( si estas online o no)
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference("Users");
 
         ArrayList<User> arrayUsers = new ArrayList<>();
 
-        //Comentar
+        //Funcionalidad para actualizar tu estado
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 arrayUsers.clear();
-                //Comentar
+                //Funcionalidad para coger tus valores como usuario
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
 

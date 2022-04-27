@@ -35,10 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
         EditText registerEmail = findViewById(R.id.registerEmail);
         EditText registerPassword = findViewById(R.id.registerPassword);
 
-        //Comentar
+        //Autentificacion de firebase
         auth = FirebaseAuth.getInstance();
 
-        //Comentar
+        //Boton para registrarse
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = registerEmail.getText().toString();
                 String password = registerPassword.getText().toString();
 
-                //Comentar
+                //Comprobante de que el usuario es correcto
                 if(username.isEmpty() || email.isEmpty() || password.isEmpty()){
                     Toast.makeText(RegisterActivity.this, "All fields are required.", Toast.LENGTH_SHORT).show();
                 }else{
@@ -57,27 +57,27 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    //Comentar
+    //Funcionladiad para crear usuario en firebase
     public void registerUser(String username, String email, String password){
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                    @Override
                    public void onComplete(@NonNull Task<AuthResult> task) {
-                       //Comentar
+                       //Condicional para crear usuario
                         if(task.isSuccessful()){
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             String userId = firebaseUser.getUid();
 
-                            //Comentar
+                            //Crea el usuario
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
                             User user = new User(userId, username, "offline");
 
-                            //Comentar
+                            //Te lleva dentro de la aplicacion
                             reference.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    //Comentar
+                                    //Condicional para llevarte la startActivity
                                     if(task.isSuccessful()) {
                                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                         startActivity(intent);

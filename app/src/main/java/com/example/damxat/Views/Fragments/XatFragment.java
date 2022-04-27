@@ -59,7 +59,7 @@ public class XatFragment extends Fragment {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        //Comentar
+        //Enviar objetos
         bundle = getArguments();
 
         if(bundle.getString("type").equals("xatuser")){
@@ -76,7 +76,7 @@ public class XatFragment extends Fragment {
         ImageButton btnMessage = view.findViewById(R.id.btnMessage);
         EditText txtMessage = view.findViewById(R.id.txtMessage);
 
-        //Comentar
+        //enviar el mensaje escrito
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,25 +94,25 @@ public class XatFragment extends Fragment {
         return view;
     }
 
-    //Comentar
+    //Funcionalidad para ver los usuarios del chat
     public void getUserXat(){
         if(getArguments()!=null) {
             userid = bundle.getString("user");
 
-            //Comentar
+            //Carga la data de tu usuario
             ref = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
-            //Comentar
+            //Añade la inforamcion
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    //Comentar
+                    //Coge los valores del usuario
                     User user = dataSnapshot.getValue(User.class);
 
-                    //Comentar
+                    //Te cambia el valor de la main activity arriba
                     ((MainActivity) getActivity()).getSupportActionBar().setTitle(user.getUsername());
 
-                    //Comentar
+                    //Lee los mensajes en el chat
                     readUserMessages();
                 }
 
@@ -127,7 +127,7 @@ public class XatFragment extends Fragment {
 
 
     public void sendMessage(String sender, String message, boolean isXatUser){
-        //Comentar
+        //Funcionalidad para enviar mensaje al xat
         if(isXatUser==true){
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
@@ -165,7 +165,7 @@ public class XatFragment extends Fragment {
     public void readUserMessages(){
         arrayXats = new ArrayList<>();
 
-        //Comentar
+        //Coge la data de tus xats
         ref = FirebaseDatabase.getInstance().getReference("Xats");
 
         ref.addValueEventListener(new ValueEventListener() {
@@ -173,10 +173,10 @@ public class XatFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arrayXats.clear();
 
-                //Comentar
+                //Funcionaldiad para cargar la informacion de tus xats
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Xat xat = postSnapshot.getValue(Xat.class);
-                    //Comentar
+                    //Condicional para recivir solo la informacion de tus xats
                     if(xat.getReceiver().equals(userid) && xat.getSender().equals(firebaseUser.getUid()) ||
                             xat.getReceiver().equals(firebaseUser.getUid()) && xat.getSender().equals(userid)){
                         arrayXats.add(xat);
@@ -184,7 +184,7 @@ public class XatFragment extends Fragment {
                     }
                 }
 
-                //Comentar
+                //Actualiza tu movil para ver la informacion in real time
                 updateRecycler();
             }
 
@@ -199,7 +199,7 @@ public class XatFragment extends Fragment {
 
     public void readGroupMessages(String groupName){
 
-        //Comentar
+        //Funcionalidad para cargar la informacion de tus grupos
         ref = FirebaseDatabase.getInstance().getReference("Groups").child(groupName);
 
         ref.addValueEventListener(new ValueEventListener() {
